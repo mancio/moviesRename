@@ -1,24 +1,26 @@
 
-# File Renaming and Backup Script
-
 This Python script renames video and subtitle files based on their title, season number, and episode number. Additionally, it creates a backup folder before performing any renaming to ensure that the original files are preserved.
 
 ## Features
 
-- **Automatic File Renaming**: Detects video and subtitle files and renames them in the format `Title sXX eXX.ext` (e.g., `Friends s01 e01.mkv`).
-- **Title Normalization**: Handles titles with multiple words and different separators (dots, underscores, hyphens).
+- **Automatic File Renaming**: Detects video and subtitle files and renames them in the format `Title sXX eXX.ext` (e.g., `Friends s01 e01.mkv`), using the `guessit` library to handle various filename formats.
+- **Title Normalization**: Handles titles with multiple words and different separators (dots, underscores, hyphens) without relying on static patterns or regular expressions.
 - **File Backup**: Before renaming, all files are copied to a backup folder in the same directory with a timestamp to avoid overwriting backups from different runs.
 - **Supported File Types**: Renames common video formats (e.g., `.mkv`, `.mp4`, `.avi`) and subtitle formats (e.g., `.srt`, `.sub`, `.ass`).
 
 ## Requirements
 
 - Python 3.x
-- `shutil` and `re` modules (both are included in the Python standard library)
+- `guessit` library
 
 ## Installation
 
 1. Ensure Python 3.x is installed on your system.
-2. Clone or download this repository to your local machine.
+2. Install the `guessit` library:
+   ```bash
+   pip install guessit
+   ```
+3. Clone or download this repository to your local machine.
 
 ## Usage
 
@@ -42,16 +44,13 @@ python rename_files_with_backup.py /Users/username/Movies/TVShows
 
 ### File Format
 
-The script renames files that match the following pattern:
+The script renames files that match a variety of patterns using the `guessit` library to extract details. For example:
 
-```
-<title>_<season><episode>_<additional_info>.<extension>
-```
-
-For example:
-
-- Original: `friends_s01e01_720p_bluray.mkv`
+- Original: `friends.s01e01.720p.bluray.mkv`
 - Renamed: `Friends s01 e01.mkv`
+
+- Original: `The-Office_S02E05_1080p.mkv`
+- Renamed: `The Office s02 e05.mkv`
 
 ### Backup
 
@@ -70,17 +69,9 @@ The script recognizes the following file extensions:
 - **Video Files**: `.mkv`, `.mp4`, `.avi`, `.mov`
 - **Subtitle Files**: `.srt`, `.sub`, `.ass`, `.vtt`
 
-## Customization
-
-You can easily extend the script to support additional file types by adding them to the `video_extensions` or `subtitle_extensions` lists in the script.
-
-```python
-video_extensions = ['.mkv', '.mp4', '.avi', '.mov']
-subtitle_extensions = ['.srt', '.sub', '.ass', '.vtt']
-```
-
 ## Notes
 
-- The script assumes that the filenames include season and episode information in the format `sXXeXX` (case-insensitive).
-- Ensure that the directory path is valid and contains files that match the expected naming pattern.
+- The script relies on `guessit` to extract titles, season, episode, and other metadata from filenames based on various patterns and conventions.
+- Ensure that the directory path is valid and contains files that match the expected naming conventions for TV shows or movies.
+
 
